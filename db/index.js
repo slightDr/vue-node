@@ -4,7 +4,7 @@ const mysql = require('mysql')
 // 创建连接
 const db = mysql.createPool({
     host: "localhost",
-    user: "vue-node",
+    user: "root",
     password: "123456",
     database: "vue-node",
 })
