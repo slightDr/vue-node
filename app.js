@@ -39,13 +39,11 @@ app.use((req, res, next) => {
 
 const loginRouter = require("./router/login.js");
 app.use('/api', loginRouter);
-
-// 对不符合joi规则的情况报错
-app.use((req, res, next) => {
+app.use((err, req, res, next) =>  {
     if (err instanceof Joi.ValidationError) {
-        return res.cc(err);
+        res.cc("请检查数据格式", status=2);
     }
-    // next(); // 如果没有错误，继续走入路由
+    next();
 })
 
 app.listen(3000, () => {
