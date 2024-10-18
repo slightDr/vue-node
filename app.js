@@ -11,6 +11,9 @@ const cors = require("cors");
 const jwt_config = require("./jwt_config/index.js")
 const { expressjwt: jwt } = require("express-jwt");
 const Joi = require("joi");
+// multer
+const multer = require("multer");
+const upload = multer({ desc: "./public/uploads" });
 
 // 全局挂载
 app.use(cors());
@@ -24,6 +27,8 @@ app.use(jwt({
         /^\/api\//,  // localhost:3000/api
     ],
 }))
+app.use(upload.any())
+app.use(express.static("./public"));
 
 // 处理错误的中间件
 app.use((req, res, next) => {
