@@ -29,5 +29,7 @@ router.post('/updateUserName', expressJoi(name_limit),userinfoHandler.updateUser
 router.post('/updateUserSex', userinfoHandler.updateUserSex);
 // 修改邮箱
 router.post('/updateUserEmail', expressJoi(email_limit), userinfoHandler.updateUserEmail);
+// 验证账号的邮箱
+router.post('/verifyAccountEmail', userinfoHandler.verifyAccountEmail);
 
 module.exports = router;

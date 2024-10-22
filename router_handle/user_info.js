@@ -138,3 +138,17 @@ exports.updateUserEmail = (req, res) => {
         });
     });
 }
+
+// 验证账号与邮箱是否一致: account email
+exports.verifyAccountEmail = (req, res) => {
+    const { account, email } = req.body;
+    const sql = "select email from users where account = ?"
+    db.query(sql, account, (err, result) => {
+        if (err) {
+            return res.cc(err);
+        }
+        res.success("ok", {
+            result: result
+        });
+    })
+}
