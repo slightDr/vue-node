@@ -9,12 +9,18 @@ const userinfoHandler = require('../router_handle/user_info');
 
 // 导入joi
 const expressJoi = require("@escook/express-joi");
-const {name_limit, email_limit} = require("../limit/users");
+const {
+    password_limit,
+    name_limit,
+    email_limit,
+} = require("../limit/users");
 
 // 上传头像
 router.post('/uploadAvatar', userinfoHandler.uploadAvatar);
 // 绑定头像和账号
 router.post('/bindAccount', userinfoHandler.bindAccount);
+// 修改用户密码
+router.post('/updatePassword', expressJoi(password_limit), userinfoHandler.updatePassword);
 // 获取用户信息
 router.post('/getUserInfo', userinfoHandler.getUserInfo);
 // 修改姓名

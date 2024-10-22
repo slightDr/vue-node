@@ -50,12 +50,33 @@ exports.bindAccount = (req, res) => {
                 if (err) {
                     return res.cc(err);
                 }
-                res.send({
-                    status: 0,
-                    message: "修改成功",
-                })
+                res.success("修改成功");
             });
         }
+    });
+}
+
+// 修改密码：id, old_pwd, new_pwd
+exports.updatePassword = (req, res) => {
+    let sql = "select password from users where id = ?"
+    db.query(sql, req.body.id, (err, result) => {
+        if (err) {
+            return res.cc(err);
+        }
+
+        // 解密密码
+        const compare = bcrypt.compareSync(req.body.old_pwd, result[0].password);
+        if (!compare) {
+            return res.cc("密码验证失败", 1);
+        }
+        let new_pwd = bcrypt.hashSync(req.body.new_pwd, 10);
+        sql = "update users set password = ? where id = ?";
+        db.query(sql, [new_pwd, req.body.id], (err, result) => {
+            if (err) {
+                return res.cc(err);
+            }
+            res.success("修改成功");
+        })
     });
 }
 

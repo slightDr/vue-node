@@ -31,7 +31,7 @@ app.use(jwt({  // jwt验证中间件
         /^\/user\//,  // localhost:3000/user
     ],
 }));
-// 处理错误的中间件
+// res.send快捷写法中间件
 app.use((req, res, next) => {
     // status = 0成功，其他失败
     res.cc = (err, status=1) => {
@@ -40,6 +40,13 @@ app.use((req, res, next) => {
             message: err instanceof Error ? err.message : err, // 判断错误对象还是字符串
         })
     };
+    res.success = (msg, payload) => {
+        res.send({
+            status: 0,
+            message: msg,
+            payload: payload,
+        })
+    }
     next(); // 如果没有错误，继续走入路由
 });
 
