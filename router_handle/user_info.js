@@ -143,12 +143,32 @@ exports.updateUserEmail = (req, res) => {
 exports.verifyAccountEmail = (req, res) => {
     const { account, email } = req.body;
     const sql = "select email from users where account = ?"
-    db.query(sql, account, (err, result) => {
+    db.query(sql, [account], (err, result) => {
         if (err) {
             return res.cc(err);
         }
-        res.success("ok", {
-            result: result
-        });
+        if (result.length <= 0) {
+            return res.cc("该账号未注册");
+        }
+        if (email === result[0].email) {
+            res.success("验证成功");
+        } else {
+            res.cc("验证失败");
+        }
+    })
+}
+
+// 登陆页面修改密码: account, new_pwd
+exports.updateUserPassword = (req, res) => {
+    const new_pwd = bcrypt.hashSync(req.body.new_pwd, 10);
+    const sql = "update users set password = ? where account = ?";
+    db.query(sql, [new_pwd, req.body.account], (err, result) => {
+        if (err) {
+            return res.cc(err);
+        }
+        if (result.affectedRows === 1) {
+            return res.success("修改密码成功");
+        }
+        res.cc("修改密码失败");
     })
 }

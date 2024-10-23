@@ -94,7 +94,7 @@ exports.login = function (req, res) {
             expiresIn: "1h", // token有效时长1小时
         });
         res.send({
-            results: result[0],
+            result: result[0],
             status: 0,
             message: "登陆成功",
             token: "Bearer " + tokenStr,

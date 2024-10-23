@@ -13,6 +13,7 @@ const {
     password_limit,
     name_limit,
     email_limit,
+    update_pwd_limit,
 } = require("../limit/users");
 
 // 上传头像
@@ -31,5 +32,7 @@ router.post('/updateUserSex', userinfoHandler.updateUserSex);
 router.post('/updateUserEmail', expressJoi(email_limit), userinfoHandler.updateUserEmail);
 // 验证账号的邮箱
 router.post('/verifyAccountEmail', userinfoHandler.verifyAccountEmail);
+// 登陆页面修改用户密码
+router.post('/updateUserPassword', expressJoi(update_pwd_limit), userinfoHandler.updateUserPassword);
 
 module.exports = router;
